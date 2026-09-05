@@ -1,131 +1,143 @@
+/* Futuristic / Modern AI UI */
 body {
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    background-color: #121212; /* Going straight to dark mode for the movie vibe! */
-    color: #e0e0e0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #131314; /* Deep Gemini-style dark mode */
+    color: #e3e3e3;
     display: flex;
     justify-content: center;
-    padding: 40px 20px;
+    align-items: center;
+    height: 100vh;
     margin: 0;
 }
 
 .chat-container {
     width: 100%;
-    max-width: 600px;
-    background-color: #1e1e1e;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    max-width: 800px;
+    height: 90vh;
+    background-color: #1e1f20;
+    border-radius: 24px;
     display: flex;
     flex-direction: column;
-    height: 80vh; /* Takes up 80% of the screen height */
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
 }
 
 .chat-header {
-    background-color: #0a66c2;
-    padding: 20px;
-    text-align: center;
+    padding: 20px 30px;
+    border-bottom: 1px solid #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.chat-header h2 { margin: 0; color: white; }
-.chat-header p { margin: 5px 0 0 0; color: #b3d4f5; font-size: 14px; }
+.chat-header h2 { 
+    margin: 0; 
+    font-size: 20px;
+    background: linear-gradient(90deg, #4b90ff, #ff5546);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
 .chat-box {
     flex-grow: 1;
-    padding: 20px;
+    padding: 30px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
+    scroll-behavior: smooth;
 }
 
 /* Chat Bubbles */
 .message {
-    max-width: 75%;
-    padding: 12px 16px;
-    border-radius: 18px;
-    line-height: 1.5;
-    word-wrap: break-word;
+    max-width: 80%;
+    padding: 14px 20px;
+    border-radius: 20px;
+    line-height: 1.6;
+    font-size: 15px;
+    animation: fadeIn 0.3s ease-in-out;
 }
 
 .bot-message {
-    background-color: #333333;
-    color: white;
+    background-color: #282a2c;
+    color: #e3e3e3;
     align-self: flex-start;
     border-bottom-left-radius: 4px;
 }
 
 .user-message {
-    background-color: #0a66c2;
+    background-color: #0b57d0; /* Sleek modern blue */
     color: white;
     align-self: flex-end;
     border-bottom-right-radius: 4px;
 }
 
+/* Input Area */
 .input-area {
+    padding: 20px;
+    background-color: #1e1f20;
     display: flex;
-    padding: 15px;
-    background-color: #252525;
-    border-top: 1px solid #333;
+    justify-content: center;
+}
+
+.input-wrapper {
+    display: flex;
+    width: 100%;
+    max-width: 700px;
+    background-color: #282a2c;
+    border-radius: 30px;
+    padding: 8px 12px;
+    border: 1px solid #444;
 }
 
 input {
     flex-grow: 1;
-    padding: 12px;
+    padding: 10px 15px;
     border: none;
-    border-radius: 20px;
-    background-color: #333;
+    background: transparent;
     color: white;
-    font-size: 16px;
+    font-size: 15px;
     outline: none;
 }
 
 button {
-    background-color: #0a66c2;
-    color: white;
+    background-color: #e3e3e3;
+    color: #131314;
     border: none;
-    padding: 0 20px;
-    margin-left: 10px;
-    border-radius: 20px;
-    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
     cursor: pointer;
     transition: 0.2s;
 }
 
+button:hover { background-color: #fff; transform: scale(1.05); }
 
-button:hover { background-color: #004182; }
-/* Movie Card within Bot Bubble */
+/* Movie Cards */
 .movie-card {
-    margin-top: 10px;
-    background-color: #222;
-    border-radius: 8px;
+    margin-top: 15px;
+    background-color: #1a1a1c;
+    border: 1px solid #333;
+    border-radius: 12px;
     overflow: hidden;
     display: flex;
-    gap: 12px;
+    gap: 15px;
+    padding: 10px;
 }
 
 .movie-card img {
-    width: 90px;
-    height: 135px;
+    width: 80px;
+    height: 120px;
     object-fit: cover;
-    border-radius: 4px;
+    border-radius: 8px;
 }
 
-.movie-details {
-    padding: 8px;
-    font-size: 13px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+.movie-details { display: flex; flex-direction: column; justify-content: center; }
+.movie-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+.movie-meta { color: #a8c7fa; font-size: 13px; margin-bottom: 8px; }
+.movie-plot { font-size: 13px; color: #aaa; }
 
-.movie-title {
-    font-size: 15px;
-    font-weight: bold;
-    color: #4da6ff;
-    margin-bottom: 4px;
-}
-
-.movie-meta {
-    color: #aaa;
-    margin-bottom: 6px;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
