@@ -119,7 +119,7 @@ async function handleSend() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "meta-llama/Llama-3.2-3B-Instruct", // A fast, smart conversational model
+                model: "google/gemma-2-2b-it", // Swapped to a free, un-gated open model
                 messages: messagesToSend,
                 max_tokens: 350
             })
