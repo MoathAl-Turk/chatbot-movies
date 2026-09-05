@@ -2,104 +2,108 @@ const chatBox = document.getElementById('chat-box');
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
 
-// Base URLs for TMDB
 const TMDB_SEARCH_URL = "https://api.themoviedb.org/3/search/movie";
-const TMDB_DISCOVER_URL = "https://api.themoviedb.org/3/discover/movie";
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w200";
 
-// Retrieve or prompt for your TMDB Read Access Token
 function getApiKey() {
     let key = sessionStorage.getItem('tmdb_key');
     if (!key) {
         key = prompt("Please enter your TMDB API Read Access Token (v4 auth):");
-        if (key) {
-            sessionStorage.setItem('tmdb_key', key.trim());
-        }
+        if (key) sessionStorage.setItem('tmdb_key', key.trim());
     }
     return key;
 }
 
-// Append a message bubble to the chat window
 function appendMessage(sender, content, isHtml = false) {
     const bubble = document.createElement('div');
     bubble.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
-    
-    if (isHtml) {
-        bubble.innerHTML = content;
-    } else {
-        bubble.textContent = content;
-    }
-
+    if (isHtml) bubble.innerHTML = content;
+    else bubble.textContent = content;
     chatBox.appendChild(bubble);
-    chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to latest message
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Search TMDB for movies
-async function fetchMovies(query, token) {
-    const url = `${TMDB_SEARCH_URL}?query=${encodeURIComponent(query)}&include_adult=false&language=en-US&page=1`;
-    const response = await fetch(url, {
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json;charset=utf-8"
-        }
-    });
-
-    if (!response.ok) {
-        throw new Error(`TMDB error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data.results;
-}
-
-// Process user input
 async function handleSend() {
-    const query = userInput.value.trim();
+    let query = userInput.value.trim();
     if (!query) return;
 
-    const token = getApiKey();
-    if (!token) {
-        appendMessage('bot', "I need a TMDB API token to search for movies!");
-        return;
-    }
-
-    // Display user message
+    // 1. Show user message
     appendMessage('user', query);
     userInput.value = '';
 
-    // Show temporary thinking message
+    const lowerQuery = query.toLowerCase();
+
+    // 2. Intercept specific conversational prompts (The Easter Egg!)
+    if (lowerQuery.includes("who made u") || lowerQuery.includes("who created you")) {
+        setTimeout(() => {
+            appendMessage('bot', "I was created by MOATH KHALED AL-TURK! He is a software engineering student who builds efficient and intelligent applications. Do you need a movie recommendation?");
+        }, 500);
+        return;
+    }
+
+    if (lowerQuery === "hi" || lowerQuery === "hello" || lowerQuery === "hey") {
+        setTimeout(() => {
+            appendMessage('bot', "Hello! I'm CineBot. I can help you find movies, give you synopses, or recommend categories. What are you in the mood to watch?");
+        }, 500);
+        return;
+    }
+
+    // 3. If it's a movie search, proceed to TMDB
+    const token = getApiKey();
+    if (!token) {
+        appendMessage('bot', "I need your TMDB API token to search the archives.");
+        return;
+    }
+
     const thinkingBubble = document.createElement('div');
     thinkingBubble.classList.add('message', 'bot-message');
-    thinkingBubble.textContent = "Scanning the movie archives...";
+    thinkingBubble.textContent = "Thinking...";
     chatBox.appendChild(thinkingBubble);
     chatBox.scrollTop = chatBox.scrollHeight;
 
     try {
-        const results = await fetchMovies(query, token);
-        thinkingBubble.remove(); // Remove loading placeholder
+        const url = `${TMDB_SEARCH_URL}?query=${encodeURIComponent(query)}&include_adult=false&language=en-US&page=1`;
+        const response = await fetch(url, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        });
 
-        if (!results || results.length === 0) {
-            appendMessage('bot', `I couldn't find any movies matching "${query}". Try another title, genre, or keyword!`);
+        const data = await response.json();
+        thinkingBubble.remove();
+
+        if (!data.results || data.results.length === 0) {
+            appendMessage('bot', `I actually couldn't find any movies related to "${query}". Maybe try a different title or genre?`);
             return;
         }
 
-        // Grab top 2 results to display
-        const topMovies = results.slice(0, 2);
-        let replyHtml = `Here's what I found for <strong>${query}</strong>:<br>`;
+        // 4. Conversational Wrapper for Results
+        const topMovies = data.results.slice(0, 2);
+        
+        // Pick a random conversational intro to make the AI feel alive
+        const intros = [
+            `I found some great options for "${query}". Here is what you should check out:`,
+            `Absolutely! If you're looking for "${query}", these are highly recommended:`,
+            `I've searched the database. Here are the top matches for "${query}":`
+        ];
+        const randomIntro = intros[Math.floor(Math.random() * intros.length)];
+
+        let replyHtml = `${randomIntro}<br>`;
 
         topMovies.forEach(movie => {
-            const poster = movie.poster_path ? `${TMDB_IMAGE_BASE}${movie.poster_path}` : 'https://via.placeholder.com/90x135?text=No+Poster';
-            const year = movie.release_date ? movie.release_date.split('-')[0] : 'N/A';
-            const rating = movie.vote_average ? `⭐ ${movie.vote_average.toFixed(1)}/10` : 'No rating';
-            const overview = movie.overview ? (movie.overview.slice(0, 140) + '...') : 'No description available.';
+            const poster = movie.poster_path ? `${TMDB_IMAGE_BASE}${movie.poster_path}` : 'https://via.placeholder.com/80x120?text=No+Poster';
+            const year = movie.release_date ? movie.release_date.substring(0, 4) : 'N/A';
+            const rating = movie.vote_average ? `⭐ ${movie.vote_average.toFixed(1)}/10` : 'Unrated';
+            const overview = movie.overview ? (movie.overview.substring(0, 120) + '...') : 'No description available.';
 
             replyHtml += `
                 <div class="movie-card">
-                    <img src="${poster}" alt="${movie.title} poster">
+                    <img src="${poster}" alt="${movie.title}">
                     <div class="movie-details">
                         <div class="movie-title">${movie.title}</div>
                         <div class="movie-meta">${year} • ${rating}</div>
-                        <div>${overview}</div>
+                        <div class="movie-plot">${overview}</div>
                     </div>
                 </div>
             `;
@@ -108,13 +112,11 @@ async function handleSend() {
         appendMessage('bot', replyHtml, true);
 
     } catch (error) {
-        console.error(error);
         thinkingBubble.remove();
-        appendMessage('bot', `Encountered an issue fetching movie data: ${error.message}`);
+        appendMessage('bot', `Sorry, my connection to the movie database failed: ${error.message}`);
     }
 }
 
-// Event Listeners
 sendBtn.addEventListener('click', handleSend);
 userInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') handleSend();
