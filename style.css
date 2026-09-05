@@ -91,4 +91,41 @@ button {
     transition: 0.2s;
 }
 
+
 button:hover { background-color: #004182; }
+/* Movie Card within Bot Bubble */
+.movie-card {
+    margin-top: 10px;
+    background-color: #222;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    gap: 12px;
+}
+
+.movie-card img {
+    width: 90px;
+    height: 135px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.movie-details {
+    padding: 8px;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.movie-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #4da6ff;
+    margin-bottom: 4px;
+}
+
+.movie-meta {
+    color: #aaa;
+    margin-bottom: 6px;
+}
