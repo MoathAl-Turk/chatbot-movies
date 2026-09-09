@@ -1,7 +1,6 @@
-/* Futuristic / Modern AI UI */
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: #131314; /* Deep Gemini-style dark mode */
+    background-color: #131314;
     color: #e3e3e3;
     display: flex;
     justify-content: center;
@@ -27,12 +26,12 @@ body {
     border-bottom: 1px solid #333;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
 }
 
 .chat-header h2 { 
     margin: 0; 
-    font-size: 20px;
+    font-size: 22px;
     background: linear-gradient(90deg, #4b90ff, #ff5546);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -48,7 +47,6 @@ body {
     scroll-behavior: smooth;
 }
 
-/* Chat Bubbles */
 .message {
     max-width: 80%;
     padding: 14px 20px;
@@ -66,13 +64,12 @@ body {
 }
 
 .user-message {
-    background-color: #0b57d0; /* Sleek modern blue */
+    background-color: #0b57d0;
     color: white;
     align-self: flex-end;
     border-bottom-right-radius: 4px;
 }
 
-/* Input Area */
 .input-area {
     padding: 20px;
     background-color: #1e1f20;
@@ -113,29 +110,10 @@ button {
 
 button:hover { background-color: #fff; transform: scale(1.05); }
 
-/* Movie Cards */
-.movie-card {
-    margin-top: 15px;
-    background-color: #1a1a1c;
-    border: 1px solid #333;
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    gap: 15px;
-    padding: 10px;
-}
-
-.movie-card img {
-    width: 80px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.movie-details { display: flex; flex-direction: column; justify-content: center; }
-.movie-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
-.movie-meta { color: #a8c7fa; font-size: 13px; margin-bottom: 8px; }
-.movie-plot { font-size: 13px; color: #aaa; }
+/* Formatting AI responses nicely */
+.bot-message p { margin-top: 0; margin-bottom: 10px; }
+.bot-message p:last-child { margin-bottom: 0; }
+.bot-message strong { color: #4da6ff; }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
