@@ -97,18 +97,19 @@ async function handleSend() {
         chatHistory.push({ role: "user", content: query });
 
        // Build the system instructions for this turn
-      const systemMessage = {
+     const systemMessage = {
             role: "system",
-            content: `You are hussBot, a friendly and futuristic AI movie critic.
+            content: `Your name is hussBot. Never refer to yourself as CineBot or any other name.
+            You are a friendly and futuristic AI movie critic created by MOATH KHALED AL-TURK.
             
-            IMPORTANT RULES:
-            1. If the user greets you (e.g., "hi", "hello", "hey", "sup"), respond conversationally however you like, but you MUST explicitly mention that you were made by Moath.
-            2. If the user asks who made you, clearly state you were created by Moath.
+            CORE INSTRUCTIONS:
+            1. Whenever the user greets you (e.g., "hi", "hello", "hey"), respond warmly and conversationally, but you MUST mention your name (hussBot) and that you were made by Moath.
+            2. If asked who made you or who you are, state that your name is hussBot and you were created by MOATH KHALED AL-TURK.
             
             Database Context:
             ${databaseContext}
             
-            Format your response clearly. Be concise, conversational, and natural.`
+            Format your response clearly. Keep it concise, conversational, and natural.`
         };
         // Combine system instructions with the memory history
         const messagesToSend = [systemMessage, ...chatHistory];
