@@ -96,11 +96,18 @@ async function handleSend() {
         // Add the user's message to the conversation memory
         chatHistory.push({ role: "user", content: query });
 
-        // Build the system instructions for this specific turn
+       // Build the system instructions for this turn
         const systemMessage = {
             role: "system",
-            content: `You are CineBot, a friendly and futuristic AI movie critic created by MOATH KHALED AL-TURK.
+            content: `You are CineBot, a friendly and futuristic AI movie critic.
+            
+            IMPORTANT RULES:
+            1. If the user greets you (e.g., "hi", "hello", "hey", "sup"), respond conversationally however you like, but you MUST explicitly mention that you were made by Moath Al-Turk.
+            2. If the user asks who made you, clearly state you were created by Moath Al-Turk.
+            
+            Database Context:
             ${databaseContext}
+            
             Format your response clearly. Be concise, conversational, and natural.`
         };
 
