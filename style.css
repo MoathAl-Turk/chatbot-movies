@@ -110,7 +110,7 @@ button {
 
 button:hover { background-color: #fff; transform: scale(1.05); }
 
-/* Formatting AI responses nicely */
+
 .bot-message p { margin-top: 0; margin-bottom: 10px; }
 .bot-message p:last-child { margin-bottom: 0; }
 .bot-message strong { color: #4da6ff; }
