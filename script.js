@@ -5,7 +5,7 @@ const sendBtn = document.getElementById('send-btn');
 let movieDatabase = [];
 let chatHistory = []; // Keeps track of the conversation
 
-// 1. Load the Kaggle CSV file on startup
+//Load the Kaggle CSV file on startup
 Papa.parse('./imdb_top_1000.csv', {
     download: true,
     header: true,
@@ -16,7 +16,7 @@ Papa.parse('./imdb_top_1000.csv', {
     }
 });
 
-// 2. Retrieve OpenRouter Key securely via browser session
+//retrieve OpenRouter Key securely via browser session
 function getApiKey() {
     let key = sessionStorage.getItem('openrouter_key');
     if (!key) {
@@ -26,7 +26,7 @@ function getApiKey() {
     return key;
 }
 
-// 3. Print messages to the screen
+
 function appendMessage(sender, content, isHtml = false) {
     const bubble = document.createElement('div');
     bubble.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
@@ -40,7 +40,7 @@ function appendMessage(sender, content, isHtml = false) {
     return bubble;
 }
 
-// 4. Search the local database
+//Search the local database
 function findRelevantMovies(query) {
     const q = query.toLowerCase();
     const matches = movieDatabase.filter(movie => {
@@ -54,7 +54,7 @@ function findRelevantMovies(query) {
     return matches.slice(0, 3); // Return only top 3 to save AI token limits
 }
 
-// 5. Send User Request to OpenRouter AI
+// Send User Request to OpenRouter AI
 async function handleSend() {
     let query = userInput.value.trim();
     if (!query) return;
@@ -63,7 +63,7 @@ async function handleSend() {
     userInput.value = '';
     const lowerQuery = query.toLowerCase();
 
-    // -- THE EASTER EGG --
+    // this was made for happy specific reasons :)
     if (lowerQuery.includes("who made u") || lowerQuery.includes("who created you")) {
         setTimeout(() => {
             appendMessage('bot', "I was created by MOATH KHALED AL-TURK! He's a software engineering student who builds efficient and intelligent applications. Is there anything else about my creation or movies I can help with?");
